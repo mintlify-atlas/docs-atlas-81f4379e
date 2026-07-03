@@ -1,14 +1,10 @@
 ---
 title: "Memory-Assisted Shaping: Coherent Long AI Sessions"
 sidebarTitle: "Memory Shaping"
-description: "Memory-Assisted Shaping keeps long ChatGPT idea-shaping sessions coherent so decisions, gates, discarded paths, and source boundaries don't get lost before the artifact is ready."
+description: "Keeps long ChatGPT and GPT Project shaping sessions coherent so decisions, gates, discarded paths, and source boundaries survive to the final artifact."
 ---
 
-Memory-Assisted Shaping is a protocol for keeping multi-turn idea-shaping sessions in ChatGPT coherent from start to finish. It solves a specific and common problem: when you're shaping a complex idea across many conversational turns, the session's own working memory degrades. Decisions made early get forgotten. Paths you explicitly discarded resurface as suggestions. Constraints established in turn 5 have no weight by turn 40. The artifact you're building toward is shaped by whatever happened to be most recent, not by the full body of considered work. Memory-Assisted Shaping gives you a structured way to track and maintain that working state as the session progresses.
-
-<Note>
-Memory-Assisted Shaping is built specifically for ChatGPT Projects, where sessions can span significant depth and where persistent file context is available to support structured tracking. It is not designed for standard single-session ChatGPT chats, where the tracking infrastructure it relies on isn't available.
-</Note>
+Memory-Assisted Shaping is a protocol for keeping long ChatGPT and GPT Project idea-shaping sessions coherent from start to finish. It solves a specific and common problem: when you're shaping a complex idea across many conversational turns, the session's own working memory degrades. Decisions made early get forgotten. Paths you explicitly discarded resurface as suggestions. Constraints established in turn 5 have no weight by turn 40. The artifact you're building toward is shaped by whatever happened to be most recent, not by the full body of considered work. Memory-Assisted Shaping gives you a structured way to track and maintain that working state so nothing is lost before the final artifact is ready.
 
 ## What Gets Lost Without It
 
@@ -54,7 +50,7 @@ The memory is updated when decisions are made, when gates are opened or closed, 
   </Card>
 </CardGroup>
 
-## Using It in a ChatGPT Project
+## Using It in a Session
 
 <Steps>
   <Step title="Load the protocol at session start">

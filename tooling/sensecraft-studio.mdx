@@ -1,10 +1,10 @@
 ---
-title: "SensecraftXStudio: Grounding AI Technical Work"
+title: "SensecraftXStudio: Grounding AI-Assisted Technical Work"
 sidebarTitle: "SensecraftXStudio"
-description: "SensecraftXStudio keeps AI-assisted technical work grounded before the assistant acts, making the target, context, assumptions, and final state visible."
+description: "Keeps AI technical work grounded so the target, context, assumptions, and final state stay visible for the operator and clear for the agent before acting."
 ---
 
-SensecraftXStudio is a grounding layer that runs before the AI acts on technical tasks. It keeps four elements visible to both the operator and the agent before any execution begins: the target (what is actually being accomplished), the context (what the real environment looks like), the assumptions (what the AI is inferring versus what has been confirmed), and the final state (what "done" concretely means). Without this layer, AI assistants execute confidently and incorrectly. With it, the gap between what you asked for and what you get closes significantly.
+SensecraftXStudio is a grounding layer that runs before the AI acts on technical tasks. It keeps four elements in view before any execution begins: the target (what is actually being accomplished), the context (what the real environment looks like), the assumptions (what the AI is inferring versus what has been confirmed), and the final state (what "done" concretely means). These elements stay visible for the operator and clear for the agent. Without this layer, AI assistants execute confidently and incorrectly. With it, the gap between what you asked for and what you get closes significantly.
 
 <Warning>
   In long AI-assisted technical sessions, grounding degrades without active maintenance. The AI's working model of your target, environment, and constraints drifts as the session accumulates context. If you have not re-run a grounding check after significant session length or direction changes, you are probably acting on a model of your system that no longer matches reality. SensecraftXStudio is designed to catch this drift before it costs you work.

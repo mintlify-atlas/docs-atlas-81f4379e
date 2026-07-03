@@ -1,196 +1,41 @@
 ---
 title: "Cloudflare R2 Remote MCP Worker: AI File Storage Bridge"
 sidebarTitle: "R2 MCP Worker"
-description: "Cloudflare R2 Remote MCP Worker gives MCP-based hosts like ChatGPT a bridge to files on Cloudflare R2 without needing a local MCP server or native connector."
+description: "Cloudflare R2 Remote MCP Worker gives MCP-based hosts like ChatGPT a bridge to R2 files without needing a local MCP server or native R2 connector."
 ---
 
-Cloudflare R2 Remote MCP Worker is a Cloudflare Worker that exposes R2 object storage operations through a remote MCP endpoint. Remote MCP hosts — including ChatGPT with a custom MCP connector — connect directly to the deployed Worker over HTTPS, authenticate through GitHub OAuth, and get access to a bound R2 bucket. There is no local server to install, no machine to keep running, and no native R2 connector required.
+Cloudflare R2 Remote MCP Worker gives remote MCP-based hosts, such as ChatGPT, a personal bridge to files mirrored on Cloudflare R2, so they can work with your storage without needing a local MCP server or a native R2 connector. The Worker deploys to Cloudflare's edge, stays available without a machine running in the background, and lets ChatGPT read from and write to your R2 bucket directly through an MCP endpoint.
 
 ## How It Works
 
-The bridge is three components connected in a straight line:
+The bridge connects a remote MCP host to an R2 bucket through a deployed Cloudflare Worker. The Worker registers as an MCP server, exposes R2 storage operations as MCP tools, and handles authentication so that only authorized users can reach the endpoint. There is no local server to install and no machine to keep running.
 
-```
-ChatGPT / MCP client
-  -> GitHub OAuth (identity gate)
-  -> Cloudflare Worker /mcp  (MCP endpoint)
-  -> R2 bucket  (object storage)
-```
-
-The Worker registers as an MCP server and exposes R2 object operations as MCP tools. When ChatGPT sends a tool call, the Worker executes the corresponding R2 operation through the bound bucket binding, and returns the result to the MCP client. Authentication is handled by GitHub OAuth — only GitHub logins listed in your `ALLOWED_GITHUB_LOGINS` config can reach the MCP endpoint.
-
-The default exposed surface is object-level operations on one bound bucket. Optional account-level tools (read-only) and presigned URL tools can be enabled separately. Mutating account operations — bucket creation, CORS changes, lifecycle rules, domain configuration — are intentionally not exposed as MCP tools.
+<Tip>
+Use R2 as a persistence layer for material that needs to outlast a single AI session — project context, reviewed links, working drafts, signal libraries, and session handoff notes. Write once, read across any session or AI host that connects to the Worker.
+</Tip>
 
 ## Why R2 + MCP
 
 R2 combined with a remote MCP Worker solves a specific problem that comes up in AI-assisted workflows: AI sessions are stateless, but your work is not.
 
-Files, drafts, project context, session notes, and data artifacts don't need to live on your local machine to be useful across multiple AI conversations. R2 gives you a durable, cheap object store. The MCP Worker gives ChatGPT a way to read from and write to that store without you manually uploading, downloading, and pasting content between sessions.
+Files, drafts, project context, session notes, and data artifacts don't need to live on your local machine to be useful across multiple AI conversations. R2 gives you a durable object store. The MCP Worker gives ChatGPT a way to read from and write to that store without you manually uploading, downloading, and pasting content between sessions.
 
 Key properties that make this combination practical:
 
 - **No local server required.** The Worker runs on Cloudflare's edge. You deploy it once and it stays available without a machine running in the background.
 - **Works with ChatGPT and other MCP hosts.** Any MCP-compatible client that supports custom connectors can connect to the Worker endpoint.
 - **Persistent across sessions.** Files written to R2 in one ChatGPT session are readable in the next one. Context, research signals, drafts, and data can accumulate across time.
-- **Scoped to one bucket.** The Worker binds to one R2 bucket per deployment. Scope is narrow by default, and destructive operations require explicit confirmation.
+- **Scoped to one bucket.** The Worker binds to one R2 bucket per deployment, keeping the default access surface narrow.
 
-<Tip>
-Use R2 as a persistence layer for material that needs to outlast a single AI session — project context, reviewed links, working drafts, signal libraries, and session handoff notes. Write once, read across any session or AI host that connects to the Worker.
-</Tip>
+## Getting Started
 
-## Requirements
+For full setup instructions — including how to deploy the Worker, configure your R2 bucket, set up authentication, and connect ChatGPT as an MCP host — see the GitHub repository:
 
-- **Cloudflare account** with R2 enabled
-- **R2 bucket** (and a preview bucket for local development)
-- **Cloudflare Worker** — the deployment target for this project
-- **Wrangler 4** — the Cloudflare CLI for deployment and configuration
-- **Node.js 20 or newer**
-- **GitHub OAuth App** — used as the identity provider for public deployments
-- **MCP-compatible AI host** — ChatGPT with a custom MCP connector, MCP Inspector, or another MCP client
+<Note>
+See the [GitHub repository](https://github.com/XxYouDeaDPunKxX/cloudflare-r2-remote-mcp-worker) for full installation and configuration instructions.
+</Note>
 
-## Setup
-
-<Steps>
-  <Step title="Clone the repository and install dependencies">
-    Clone the source from GitHub:
-
-    ```
-    https://github.com/XxYouDeaDPunKxX/cloudflare-r2-remote-mcp-worker
-    ```
-
-    Install dependencies and log in to Cloudflare:
-
-    ```bash
-    npm install
-    npx wrangler login
-    ```
-  </Step>
-  <Step title="Create your R2 buckets">
-    Create a production bucket and a preview bucket for local development:
-
-    ```bash
-    npx wrangler r2 bucket create your-bucket-name
-    npx wrangler r2 bucket create your-preview-bucket-name
-    ```
-
-    Use names that reflect the bucket's purpose. Both are needed — the preview bucket is used when running `npm run dev` locally.
-  </Step>
-  <Step title="Configure wrangler.jsonc">
-    Copy the example config file:
-
-    ```bash
-    cp wrangler.example.jsonc wrangler.jsonc
-    ```
-
-    Edit `wrangler.jsonc` and set:
-
-    - `name` — your Worker name
-    - `r2_buckets[0].bucket_name` — your production bucket name
-    - `r2_buckets[0].preview_bucket_name` — your preview bucket name
-    - `vars.R2_BUCKET_NAME` — same as the production bucket name
-    - `vars.AUTH_MODE` — set to `github` for public deployments
-    - `vars.ALLOWED_GITHUB_LOGINS` — comma-separated list of GitHub logins allowed to authenticate
-
-    Do not commit `wrangler.jsonc`. It contains deployment-specific configuration that should stay out of source control.
-  </Step>
-  <Step title="Configure local dev variables">
-    Copy the dev variables example:
-
-    ```bash
-    cp .dev.vars.example .dev.vars
-    ```
-
-    The example uses `AUTH_MODE=none` for local development. This is safe only when the Worker is running locally at `localhost:8787` and not exposed publicly.
-
-    Do not use `AUTH_MODE=none` on a deployed Worker without another access layer protecting it.
-  </Step>
-  <Step title="Set up the OAuth KV namespace">
-    The Worker uses a Cloudflare KV namespace to store OAuth session state. Create it:
-
-    ```bash
-    npx wrangler kv namespace create OAUTH_KV
-    ```
-
-    Wrangler will output a namespace ID. Add it to `wrangler.jsonc` in the `kv_namespaces` section.
-  </Step>
-  <Step title="Create a GitHub OAuth App and configure secrets">
-    In GitHub, create a new OAuth App. Set the callback URL to:
-
-    ```
-    https://<worker-name>.<account-subdomain>.workers.dev/callback
-    ```
-
-    GitHub OAuth verifies identity — it does not grant access to GitHub repositories. It is only used to confirm which login is connecting.
-
-    Set the required secrets using Wrangler:
-
-    ```bash
-    npx wrangler secret put GITHUB_CLIENT_ID -c wrangler.jsonc
-    npx wrangler secret put GITHUB_CLIENT_SECRET -c wrangler.jsonc
-    npx wrangler secret put COOKIE_ENCRYPTION_KEY -c wrangler.jsonc
-    ```
-
-    Generate a strong random value for `COOKIE_ENCRYPTION_KEY`.
-  </Step>
-  <Step title="Deploy the Worker">
-    Deploy to Cloudflare:
-
-    ```bash
-    npm run deploy
-    ```
-
-    After deployment, the Worker exposes:
-
-    - **MCP endpoint:** `https://<worker-name>.<account-subdomain>.workers.dev/mcp`
-    - **Health endpoint:** `https://<worker-name>.<account-subdomain>.workers.dev/healthz`
-
-    Verify the health endpoint returns `ok: true` before connecting an MCP client.
-  </Step>
-  <Step title="Verify the deployment">
-    Run the type check and smoke tests:
-
-    ```bash
-    npm run type-check
-    npm run smoke
-    ```
-
-    Then confirm that `/healthz` returns `ok: true` and that `tools/list` via MCP Inspector (or a direct call) lists the R2 object tools including `r2_object_list`.
-  </Step>
-</Steps>
-
-## Connecting Your AI Host
-
-Once the Worker is deployed, connect ChatGPT or another MCP-compatible client to the Worker's MCP endpoint.
-
-**ChatGPT custom MCP connector:**
-
-In ChatGPT, add a new custom MCP connector with these values:
-
-```
-URL  = https://<worker-name>.<account-subdomain>.workers.dev/mcp
-Auth = OAuth
-```
-
-ChatGPT will initiate the OAuth flow. Authenticate using a GitHub login listed in `ALLOWED_GITHUB_LOGINS`. After authentication, refresh or list tools — ChatGPT should show the available R2 MCP tools.
-
-**MCP Inspector (for testing and development):**
-
-Run the Worker locally with `npm run dev` (which starts at `http://localhost:8787`), then point MCP Inspector at `http://localhost:8787/mcp` with `AUTH_MODE=none` in `.dev.vars` for authless local testing.
-
-**Available tool surface:**
-
-The default enabled tools cover object-level operations on the bound bucket:
-
-- List, head, get, put, and delete objects
-- Copy, move, and rename objects
-- Base64 upload and download for binary content
-
-Optional tools can be enabled in configuration:
-
-- `ENABLE_ACCOUNT_TOOLS=true` — read-only account and bucket visibility via the Cloudflare API
-- `ENABLE_PRESIGN_TOOLS=true` — presigned GET and PUT URLs using R2 S3 credentials
-
-Destructive operations (delete, batch delete, move, rename) require `confirm: true` in the tool call. Batch operations support `dryRun: true`.
+The repository contains the source, configuration reference, and a complete deployment walkthrough covering local development and production deployment.
 
 ---
 
