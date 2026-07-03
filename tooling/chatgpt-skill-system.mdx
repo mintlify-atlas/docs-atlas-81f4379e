@@ -1,0 +1,58 @@
+---
+title: "ChatGPT Skill System: Controlled Protocol Loading"
+sidebarTitle: "Skill System"
+description: "The ChatGPT Skill System gives GPT Projects a controlled session workflow for loading skill packages: boot the core, load named skills, check externals before use."
+---
+
+The ChatGPT Skill System is a controlled workflow for loading protocol and skill packages into a ChatGPT Project session. Instead of front-loading every contract, reference file, and behavioral instruction into context at project start — which dilutes the AI's effective attention across everything equally — the Skill System gives you a deliberate boot sequence: establish a core, load what this session actually needs, and audit anything external before it comes into the working context. It's session management as a discipline, not an afterthought.
+
+## The Three-Step Boot Process
+
+Every session using the Skill System follows the same boot sequence. The sequence is the whole point — skipping steps is how you get the problems the system exists to prevent.
+
+<Steps>
+  <Step title="Boot the core">
+    Load the minimal core package that defines the session's operating rules: the project's constraints, the AI's behavioral baseline, and the current working state. The core is intentionally small. It's not a dump of everything that might be relevant — it's the non-negotiable foundation every session starts from.
+  </Step>
+  <Step title="Load named skills">
+    Load the specific skill packages required for this session's work. Named skills are pre-defined, reviewed protocol packages — a review protocol, a writing contract, a shaping framework — that you load by name because you've verified they apply to what you're doing today. Nothing else comes in at this stage.
+  </Step>
+  <Step title="Check external skills before use">
+    Any skill package from outside your verified set — something new, something borrowed, something you haven't used in this project before — gets checked before it enters context. Checking means reviewing what it does, what it assumes, and whether it conflicts with anything already loaded. External skills that haven't been checked stay out of context until they have been.
+  </Step>
+</Steps>
+
+## Why Controlled Loading Matters
+
+When you dump everything into context at once, the AI treats all of it as equally relevant to every response. Your writing protocol influences your code review. Your review constraints bleed into your shaping work. Your session instructions from three projects ago are still technically in context and still technically in play. The AI isn't malicious about this — it just doesn't have a principled way to know which instructions are live for this task and which aren't. So it uses them all, weighted by proximity and salience in ways you can't reliably predict.
+
+Controlled loading solves this by making the active instruction set explicit. What's in context at any given moment is what you deliberately put there for a reason you can articulate. When something goes wrong — and something will go wrong — you have a clear picture of exactly what was loaded and what wasn't. That makes the problem diagnosable. An uncontrolled context dump is a debugging nightmare.
+
+## Skill Package Concepts
+
+<CardGroup cols={2}>
+  <Card title="Core Boot" icon="power-off">
+    The minimal package loaded at the start of every session. Defines the behavioral baseline, active constraints, and project state. Intentionally small — only what every session unconditionally needs.
+  </Card>
+  <Card title="Named Skills" icon="bookmark">
+    Pre-defined, reviewed protocol packages loaded by name for specific session work. Named skills are trusted because they've already been verified against your project's core and constraints.
+  </Card>
+  <Card title="External Skills" icon="triangle-exclamation">
+    Skills from outside your verified set. Checked before they enter context — reviewed for what they do, what they assume, and whether they conflict with what's already loaded. Not automatically trusted.
+  </Card>
+  <Card title="Context Management" icon="sliders">
+    The active discipline of knowing what's in context, why it's there, and what it's authorized to influence. Context management is what separates a controlled session from a context soup.
+  </Card>
+</CardGroup>
+
+## Using the Skill System
+
+Set up the Skill System as part of your ChatGPT Project structure — not as a one-off prompt technique, but as the operational layer that governs every session in the project. Define your core package in the project instructions: it should be short, specific, and stable. Build your library of named skills as separate project files you can reference and load by session type. Establish a simple external-check habit before loading anything new into a live session.
+
+The Skill System pairs directly with [GPT Project Forge](/tooling/gpt-project-forge). Project Forge establishes the project's structural foundation — scope, sources, constraints, starting basis. The Skill System controls what gets activated in each working session within that structure. Use Forge to set up the project. Use the Skill System to run it.
+
+Full documentation and package templates are at [github.com/XxYouDeaDPunKxX/ChatGPT-SKILL-SYSTEM](https://github.com/XxYouDeaDPunKxX/ChatGPT-SKILL-SYSTEM).
+
+<Tip>
+  The Skill System's real value is what it keeps out of context as much as what it puts in. When a session starts going sideways, the first diagnostic question is: "what's actually loaded right now, and did I intend all of it?" A well-run Skill System session makes that question answerable in under a minute.
+</Tip>

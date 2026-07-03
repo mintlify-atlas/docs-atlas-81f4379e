@@ -1,0 +1,64 @@
+---
+title: "PA-PVP: Adversarial Peer Validation Protocol"
+sidebarTitle: "PA-PVP"
+description: "PA-PVP turns vague plans, artifacts, or stuck decisions into a clear verdict, one next action, and a continuation point instead of more open-ended discussion."
+---
+
+PA-PVP (Peer Adversarial – Plutonium-grade Validation Protocol) is a structured adversarial review system for high-stakes decisions, plans, and artifacts. Inspired by PLUTONIUM-style stress-testing, PA-PVP forces an AI reviewer into the role of an adversary rather than a collaborator — one whose job is to find what is wrong, not to confirm what looks right. The output is always the same three things: a clear verdict, exactly one next action, and a defined continuation point. No more open-ended discussions, no consensus-seeking, no softened feedback.
+
+## The Problem
+
+AI assistants are trained to be helpful, which in practice means they tend to agree, validate, and smooth over problems in the work they review. When you ask an AI to evaluate a plan or artifact, the default response is often a supportive summary of what works, followed by minor suggestions, followed by encouragement. This is not useful when the plan has real problems.
+
+The deeper issue is that even well-intentioned AI feedback gets shaped by the tone and structure of the original work. If you write a confident plan, the AI will often match that confidence in its review. If the plan has a fundamental gap, there is a good chance the AI will frame it as something to consider rather than something that breaks the approach. PA-PVP addresses this by structuring the review role explicitly as adversarial — not hostile, but genuinely adversarial in the sense that the reviewer's job is to find failure modes, not to help the author feel better about their work.
+
+## How It Works
+
+PA-PVP produces exactly three outputs from every review, regardless of what is being reviewed:
+
+**1. A clear verdict.** Not a nuanced assessment. Not a list of pros and cons. A verdict: pass, conditional pass with specific requirements, or fail with a reason. The verdict must be unambiguous.
+
+**2. One next action.** Not a list of improvements. One concrete action that should happen before the work moves forward. If there are multiple problems, the most critical one determines the next action. Everything else is deferred until that action is resolved.
+
+**3. A continuation point.** A defined marker for where the work picks up after the next action is complete — so the review process doesn't have to restart from scratch.
+
+This three-output structure eliminates the most common failure mode of AI-assisted reviews: generating more discussion without producing a decision.
+
+## When to Use PA-PVP
+
+<CardGroup cols={2}>
+  <Card title="Vague Plans" icon="map">
+    When a plan exists but hasn't been stress-tested, PA-PVP forces the review to identify what the plan assumes, what happens when those assumptions fail, and whether the plan can actually execute under real conditions.
+  </Card>
+  <Card title="Stuck Decisions" icon="circle-pause">
+    When a decision has been discussed at length without resolution, PA-PVP breaks the loop by forcing a verdict. The adversarial framing prevents the review from adding more options — it has to pick a path or identify what information is missing.
+  </Card>
+  <Card title="Artifacts Under Review" icon="file-magnifying-glass">
+    Documents, prompts, procedures, specs, and code that need a genuine stress-test before being acted on. PA-PVP reviews an artifact as an adversary looking for gaps, not as a collaborator looking for ways to strengthen it.
+  </Card>
+  <Card title="Shaky Logic" icon="triangle-exclamation">
+    When an argument or chain of reasoning seems plausible but something feels off, PA-PVP is structured to find where the logic breaks rather than where it holds. The adversarial posture makes it harder for surface plausibility to mask structural problems.
+  </Card>
+</CardGroup>
+
+## The Adversarial Loop
+
+PA-PVP is designed for multi-agent or multi-session use. After the first AI produces a review, a second AI — operating with the same adversarial framing — challenges both the original work *and* the first review. This second-pass review is not about finding a middle ground between the original work and the first review; it is about identifying where the first review was wrong, soft, or incomplete.
+
+This loop matters because a single adversarial review can still be shaped by the framing of the original work. The second reviewer has a structural incentive to find what the first reviewer missed, which makes the combined output significantly more reliable than a single-pass review, however well-framed.
+
+In practice, the loop can run as two separate AI sessions, or as two turns within the same session where the second turn is explicitly instructed to challenge the first. The key requirement is that the second reviewer has access to both the original artifact and the full first review.
+
+## PA-PVP vs PA-PVP Mini
+
+PA-PVP is the full protocol, designed for high-stakes work where the cost of a missed failure is significant. It carries the full adversarial framing, the three-output structure, and the adversarial loop. It is appropriate for consequential plans, critical decisions, and artifacts that will be acted on directly.
+
+[PA-PVP Mini](/protocols/pa-pvp-mini) is a lighter version of the same core idea. It applies adversarial stress-testing to smaller or lower-stakes items — ideas, prompts, quick plans — where the full PA-PVP structure would be heavier than the task warrants. Mini uses the same two-stage review logic but without the full verdict-action-continuation output structure. When in doubt about which to use, consider the cost of acting on a flawed result: if that cost is high, use full PA-PVP.
+
+## Getting Started
+
+Visit the [PA-PVP GitHub repository](https://github.com/XxYouDeaDPunKxX/PA_PVP-a-PLUTONIUM-like-Adversarial-Peer-Validation-Protocol) for the full protocol text, usage examples, and guidance on structuring the adversarial loop across sessions.
+
+<Warning>
+PA-PVP is built for high-stakes, consequential work. Using adversarial validation on routine low-stakes tasks — quick questions, exploratory drafts, minor iterations — adds overhead without proportional benefit and can introduce unnecessary friction into work that just needs to move forward. Reserve the full protocol for decisions and artifacts where the cost of an undetected flaw is real.
+</Warning>

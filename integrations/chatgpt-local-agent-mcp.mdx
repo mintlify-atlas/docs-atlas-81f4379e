@@ -1,0 +1,215 @@
+---
+title: "ChatGPT Local Agent MCP: Connect ChatGPT to Your Desktop"
+sidebarTitle: "Local Agent MCP"
+description: "ChatGPT Local Agent MCP connects ChatGPT to your Windows PC so it can help with real files, commands, browser sessions, screenshots, and desktop tools."
+---
+
+ChatGPT Local Agent MCP is a local MCP (Model Context Protocol) server that bridges ChatGPT to your Windows desktop environment. Instead of copying error logs, file snippets, and terminal output back and forth into a chat window, you give ChatGPT supervised access to the actual machine where the work lives — so it can read your files, run commands, inspect Git state, open browser sessions, and take screenshots while you stay in control at every step.
+
+## What It Enables
+
+ChatGPT stays the brain. This gives it hands on your computer — scoped, supervised, and intentionally explicit about what it can reach.
+
+<CardGroup cols={2}>
+  <Card title="Real File Access" icon="folder-open">
+    Read, write, patch, search, compare, and tree-inspect files and folders on your local machine. ChatGPT works against the actual project, not a stale paste.
+  </Card>
+  <Card title="Command Execution" icon="terminal">
+    Run build commands, diagnostic scripts, log tails, and shell operations. Scopes and workspace profiles let you keep execution bounded to the paths and policies you choose.
+  </Card>
+  <Card title="Browser Sessions" icon="globe">
+    Open Playwright-powered browser sessions, navigate pages, inspect console and network output, and interact with browser UI. Use a dedicated browser profile to keep sessions separate.
+  </Card>
+  <Card title="Screenshots" icon="camera">
+    Capture the current state of the desktop or a browser window and feed it directly to ChatGPT for inspection — no manual screenshot-and-paste loop.
+  </Card>
+  <Card title="Desktop Tools" icon="display">
+    List processes and ports, inspect windows, and use desktop mouse and keyboard automation when needed. The full tool surface is controlled by MCP scopes.
+  </Card>
+</CardGroup>
+
+## The Control Model
+
+The key design decision in ChatGPT Local Agent MCP is that you remain in control at all times. The server does not run autonomously. ChatGPT can only reach what you configure, and only through MCP scopes you explicitly enable.
+
+Tool access is gated by named scopes:
+
+```
+mcp:read       — filesystem read operations
+mcp:write      — filesystem write operations
+mcp:shell      — shell and command execution
+mcp:git        — Git status, diff, and commit
+mcp:patch      — apply patches to files
+mcp:delete     — delete files
+mcp:process    — process and port management
+mcp:screen     — screen and window inspection
+mcp:desktop    — mouse and keyboard desktop automation
+mcp:browser    — browser session and automation tools
+```
+
+Use narrow scopes and add power only when you need it. The server also exposes a local web dashboard at `http://127.0.0.1:8789/dashboard` and a health endpoint at `http://127.0.0.1:8789/healthz` so you can see what is happening before and while the remote connector is active.
+
+Treat ChatGPT's access like you would treat a human assistant sitting at your keyboard. The server runs with the permissions of the Windows account that starts it. If that account can read a file or launch a command, the exposed tools can reach the same surface.
+
+## Requirements
+
+**For a local-only smoke test (Path A):**
+- Windows PC (the only supported platform)
+- Node.js and npm
+- PowerShell or Windows PowerShell
+- Git (recommended)
+
+**For the full remote ChatGPT connector (Path B):**
+- Everything from Path A
+- A Cloudflare Tunnel (or another HTTPS tunnel) to expose a public MCP endpoint
+- A GitHub OAuth App (used as the identity provider)
+- ChatGPT with a custom MCP connector configured (requires a ChatGPT plan that supports MCP connectors)
+- A public HTTPS hostname pointing to your local server
+
+<Note>
+ChatGPT Local Agent MCP is **Windows-only**. The installer, runtime paths, workspace profile defaults, and desktop automation tools are built for Windows. It is not designed to run on macOS or Linux.
+</Note>
+
+## Getting Started
+
+The setup has two ordered paths. Do Path A first to prove the local server starts and works. Only move to Path B after Path A is clean.
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone or download the source from GitHub:
+
+    ```
+    https://github.com/XxYouDeaDPunKxX/chatgpt-local-agent-mcp
+    ```
+
+    The source folder is the setup package only. The installer copies the app into a separate runtime folder before building.
+  </Step>
+  <Step title="Run the installer">
+    From the extracted source folder, run the installer batch file:
+
+    ```bat
+    .\install-chatgpt-local-agent-mcp.bat
+    ```
+
+    The default runtime install folder is:
+
+    ```
+    %LOCALAPPDATA%\chatgpt-local-agent-mcp
+    ```
+
+    Your `.env`, logs, build output, browser artifacts, and data files all live in the runtime folder — not in the source folder.
+  </Step>
+  <Step title="Configure your .env for local testing (Path A)">
+    Copy `.env.example` to `.env` in the runtime folder and set these values for a localhost-only smoke test:
+
+    ```env
+    PUBLIC_BASE_URL=http://127.0.0.1:8789
+    CLOUDFLARE_TUNNEL_ENABLED=false
+    AUTH_REQUIRED=false
+    GPT_FS_MCP_HOST=127.0.0.1
+    GPT_FS_MCP_PORT=8789
+    ```
+
+    `AUTH_REQUIRED=false` is only safe while the server is bound to localhost with no tunnel. The installer and server guard against unsafe combinations, but configuration still matters.
+  </Step>
+  <Step title="Start the server and check the dashboard">
+    Start the server from the runtime folder:
+
+    ```bat
+    .\chatgpt-local-agent-mcp-control.bat
+    ```
+
+    Then open the local dashboard to verify it is running:
+
+    ```
+    http://127.0.0.1:8789/dashboard
+    ```
+
+    The health endpoint should also return a response:
+
+    ```
+    http://127.0.0.1:8789/healthz
+    ```
+
+    If both respond, Path A is working.
+  </Step>
+  <Step title="Configure a workspace profile (recommended before Path B)">
+    By default, the server creates a workspace profile for each detected drive root (`C:\`, `D:\`, and so on). Before connecting ChatGPT, define a custom workspace profile to limit access to one project folder:
+
+    ```env
+    GPT_FS_MCP_WORKSPACE_PROFILES_JSON=[{"root":"C:\\path\\to\\your\\project","modes":["read","write","patch"]}]
+    GPT_FS_MCP_SHELL_POLICY=workspace_guarded
+    GPT_FS_MCP_PROCESS_POLICY=workspace_guarded
+    ```
+  </Step>
+  <Step title="Set up the remote connector (Path B)">
+    For ChatGPT to reach your local server, the MCP endpoint must be available over HTTPS. The recommended approach is a Cloudflare Tunnel:
+
+    ```
+    ChatGPT
+      -> https://mcp.your-domain.example/mcp
+      -> Cloudflare Tunnel
+      -> http://127.0.0.1:8789
+      -> local MCP server
+    ```
+
+    Configure your Cloudflare Tunnel `config.yml`:
+
+    ```yaml
+    ingress:
+      - hostname: mcp.your-domain.example
+        service: http://127.0.0.1:8789
+      - service: http_status:404
+    ```
+
+    Update `.env` with OAuth values and your public hostname:
+
+    ```env
+    AUTH_REQUIRED=true
+    CLOUDFLARE_TUNNEL_ENABLED=true
+    PUBLIC_BASE_URL=https://mcp.your-domain.example
+    CLOUDFLARED_CONFIG=C:\Users\you\.cloudflared\config.yml
+    GITHUB_CLIENT_ID=
+    GITHUB_CLIENT_SECRET=
+    ALLOWED_GITHUB_LOGINS=your-github-login
+    OAUTH_CLIENT_ID=
+    OAUTH_CLIENT_SECRET=
+    OAUTH_REDIRECT_URIS=
+    ```
+
+    See `INSTALL.md` in the repository for the complete Path B walkthrough.
+  </Step>
+  <Step title="Add the connector in ChatGPT">
+    In ChatGPT, add a custom MCP connector using your public MCP endpoint:
+
+    ```
+    URL  = https://mcp.your-domain.example/mcp
+    Auth = OAuth
+    ```
+
+    Authenticate through the GitHub OAuth flow, then refresh the tool list. ChatGPT should list the available MCP tools from your configured scopes.
+  </Step>
+</Steps>
+
+## Safety Considerations
+
+<Warning>
+**This project is intentionally capable, not sandboxed.**
+
+Before connecting ChatGPT, understand the full tool surface:
+
+- **File access:** By default, the server exposes detected drive roots (`C:\`, `D:\`, etc.) as workspace profiles. A custom `GPT_FS_MCP_WORKSPACE_PROFILES_JSON` is the right way to limit scope before connecting remotely.
+- **Command execution:** Shell and process tools run with the permissions of the Windows account running the server. Use `workspace_guarded` shell and process policies unless you deliberately need unrestricted shell access.
+- **Browser automation:** Browser tools use Playwright and can interact with visible UI and active sessions. Browser CDP attach can reach existing browser profiles and logged-in accounts. Use a dedicated browser profile.
+- **Desktop automation:** Desktop tools can move the mouse and press keys. Any logged-in application on your desktop is potentially reachable.
+- **Authentication:** Never disable `AUTH_REQUIRED` on a public URL or active Cloudflare Tunnel. The GitHub allowlist (`ALLOWED_GITHUB_LOGINS`) controls who can complete authentication.
+- **`.env` is security-critical.** Treat it like a credentials file. Do not commit it.
+
+ChatGPT also has its own safety layer. Some write, submit, and browser actions may be blocked on the OpenAI side regardless of what the MCP server exposes. That is a platform boundary — making the server more capable does not bypass it.
+</Warning>
+
+---
+
+**Source:** [github.com/XxYouDeaDPunKxX/chatgpt-local-agent-mcp](https://github.com/XxYouDeaDPunKxX/chatgpt-local-agent-mcp)
+
+If you need persistent file storage accessible across AI sessions without a local server, see the [Cloudflare R2 Remote MCP Worker](/integrations/cloudflare-r2-mcp) — a complementary tool that gives remote MCP hosts a bridge to files stored in Cloudflare R2.

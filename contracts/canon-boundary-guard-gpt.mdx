@@ -1,0 +1,88 @@
+---
+title: "Canon Boundary Guard for GPT Project: Prevent Silent Drift"
+sidebarTitle: "CBG for GPT"
+description: "Helps ChatGPT keep uploaded files, chat history, instructions, hypotheses, and model assumptions separate in long Projects before they silently become canon."
+---
+
+Canon Boundary Guard for GPT Project is the ChatGPT-specific version of CBG, built for the particular way that GPT Projects accumulate and blend context over time. In a GPT Project, you work with uploaded files, persistent memory, ongoing chat history, and iterative instructions — all of which can gradually collapse into a single undifferentiated pool of "what the AI knows." CBG for GPT Project keeps those sources explicitly separated so that uploaded files don't get overwritten by chat-generated rewrites, hypotheses stay hypotheses, and operator instructions don't get diluted by conversational drift.
+
+## The Silent Canon Problem
+
+GPT Projects are designed for long-running work, which is exactly what makes them vulnerable to silent canon drift. The longer a project runs, the more material accumulates in context — and ChatGPT, by default, treats all of it with roughly equal weight when generating responses.
+
+The drift typically happens through a sequence of small, unremarkable events:
+
+1. You upload a source document as authoritative reference material.
+2. You explore some ideas in chat. ChatGPT generates text that partially summarizes, extends, or reframes the source.
+3. The generated text sits in chat history. You keep working.
+4. Several turns later, ChatGPT references the generated text as if it were the original source.
+5. A hypothesis you floated becomes a constraint. A draft becomes the final version. An inference becomes a fact.
+
+By the time you notice, the project's working model of what is true no longer matches what you actually established. The AI isn't lying — it's just treating everything it has seen as equally canonical, which is its default behavior. CBG makes the distinction explicit before that default takes over.
+
+## What CBG Guards
+
+CBG for GPT Project maintains separation between these categories of material:
+
+- **Uploaded files** — documents, data, and source material you explicitly added to the project. These are authoritative until you replace them.
+- **Chat history** — the running transcript of the conversation. Informational, but not authoritative. Should not overwrite or replace uploaded source material.
+- **Operator instructions** — explicit directives you have given ChatGPT about scope, approach, constraints, or behavior. These govern the session and should not be diluted by conversational drift.
+- **Working drafts** — outputs ChatGPT has generated that are still in progress. These are candidate material, not final artifacts.
+- **Working hypotheses** — ideas you are exploring but have not validated or committed to. Must be labeled and tracked as provisional.
+- **Model assumptions** — inferences ChatGPT has drawn from context. These must be surfaced and confirmed before being used as a basis for decisions or outputs.
+
+## Using CBG in a GPT Project
+
+<Steps>
+  <Step title="Start with a clean layer declaration">
+    At the start of a project or a new work phase, explicitly state what is in each layer. Name your uploaded files as authoritative sources. State your current operator instructions directly. This gives CBG a clean baseline to protect.
+  </Step>
+  <Step title="Load the CBG instructions">
+    Paste the CBG for GPT Project instructions into your project's system prompt or at the top of the first session. The instructions are available at [GitHub](https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-for-gpt-project). Loading them before any substantive work begins ensures the boundaries are active from the start.
+  </Step>
+  <Step title="Label hypotheses before floating them">
+    When you want to explore an idea that isn't yet established, introduce it explicitly as a hypothesis. Something as simple as "hypothesis: X" before stating the idea is enough to prevent ChatGPT from absorbing it as a fact on the next turn.
+  </Step>
+  <Step title="Confirm before promoting">
+    Before treating a hypothesis, draft, or inference as settled material, explicitly confirm the promotion. Tell ChatGPT that a hypothesis has been validated, or that a draft has been approved, so it can update its working model of what's authoritative.
+  </Step>
+  <Step title="Run periodic boundary checks">
+    In long projects, use CBG's boundary check prompt to ask ChatGPT what it currently treats as authoritative, what is still hypothetical, and what assumptions it has been working from. This surfaces drift before it compounds.
+  </Step>
+</Steps>
+
+## When Things Go Wrong
+
+<Accordion title="The AI is using my old draft as if it's the final version">
+This is one of the most common drift failures in GPT Projects. ChatGPT has no native mechanism for distinguishing between "draft I generated last Tuesday" and "final version I approved this morning" — it treats both as equally present context.
+
+CBG addresses this by requiring explicit promotion of drafts to final status. If you haven't run a promotion gate, the draft should still be treated as provisional. When this failure occurs mid-project, use CBG's layer reset prompt to re-declare your authoritative sources and explicitly deprecate old drafts from the working canon.
+</Accordion>
+
+<Accordion title="Hypotheses I floated are now showing up as facts">
+This happens when exploratory statements are absorbed into context without a hypothesis label. ChatGPT integrates them on subsequent turns and eventually references them as established.
+
+The fix is to use CBG's hypothesis tagging from the point of recovery forward, and to explicitly re-state which items in your recent conversation were hypotheses rather than decisions. It helps to do a brief summary turn: "To clarify the record: X was a hypothesis we were exploring, not a confirmed direction."
+</Accordion>
+
+<Accordion title="Chat history is influencing instructions it shouldn't">
+Conversational exchanges can subtly reframe operator instructions over time, especially if you've been adjusting scope or approach through back-and-forth discussion. ChatGPT may synthesize a modified version of your instructions from the conversation rather than adhering strictly to what you originally stated.
+
+CBG handles this by keeping operator instructions in a pinned, explicit form that is re-stated at boundary check intervals. If you suspect drift, re-state your current operator instructions directly and ask ChatGPT to confirm its working understanding of your scope and constraints.
+</Accordion>
+
+## CBG for Codex vs CBG for GPT
+
+Both versions of Canon Boundary Guard solve the same core problem — layer collapse and silent canon drift — but they are adapted for different environments.
+
+**CBG for GPT Project** is designed around ChatGPT's project structure: persistent file uploads, ongoing chat history, and the way GPT Projects accumulate context across sessions. It uses prompt-based instructions and explicit labeling patterns suited to that environment.
+
+**[CBG for Codex](/contracts/canon-boundary-guard-codex)** is implemented as a Codex skill — a structured instruction set that integrates with Codex's skill loading system, inline layer tagging, and session-level behavioral contracts. It uses Codex-specific mechanisms like promotion gates and drift checkpoints built into the skill layer.
+
+If you work across both environments, the two versions are compatible: the conceptual model is the same, and the layer taxonomy is consistent between them.
+
+<Note>
+CBG for GPT Project pairs well with [Memory-Assisted Shaping](/contracts/memory-assisted-shaping), which handles the complementary problem of keeping decisions, gates, and discarded paths coherent across a long idea-shaping session. If your GPT Project involves multi-turn shaping work, using both together gives you boundary protection (CBG) and session coherence (Memory-Assisted Shaping) at the same time.
+</Note>
+
+For full source and instructions: [github.com/XxYouDeaDPunKxX/canon-boundary-guard-for-gpt-project](https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-for-gpt-project)

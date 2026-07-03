@@ -1,0 +1,77 @@
+---
+title: "Signal Rail: Keeping Live Project Material Organized"
+sidebarTitle: "Signal Rail"
+description: "Signal Rail keeps decisions, open work, ideas, constraints, and handoff notes in the right place so live project material doesn't collapse into one messy document."
+---
+
+Signal Rail is a structural protocol for organizing the different types of material that accumulate during active project work. It defines a set of named tracks — rails — each dedicated to a specific category of project content, and establishes where new material belongs as it is created. The goal is to prevent the natural entropy of working sessions from collapsing everything into a single undifferentiated document where decisions, open questions, discarded ideas, and active constraints all mix together and become hard to act on.
+
+## The Problem
+
+In AI-assisted project work, material accumulates fast. A single working session can generate a decision that needs to be locked in, three open questions that need answers before the next step, an idea that isn't ready but shouldn't be lost, a constraint that was discovered mid-session, and notes about what the next operator needs to know to pick up the work.
+
+Without a structure for where each of these belongs, everything lands in the same place. The document — or the chat — becomes a mix of settled and unsettled material, active constraints and discarded paths, things that are done and things that are still open. Navigating it requires reading everything to figure out what is still relevant. Handing it off to another person or another session requires even more work to reconstruct what was decided, what remains open, and what context the next operator needs.
+
+This isn't a failure of effort. It's a structural problem: when everything is in one place, the document cannot signal its own state. Signal Rail solves this by making the structure explicit from the start.
+
+## The Rail System
+
+Signal Rail works by assigning each category of project material to its own rail — a dedicated track that exists alongside the others, not mixed into a single running document. Each rail has a defined scope: what belongs there, what doesn't, and what it means for material to be on that rail.
+
+The rails are not separate files (though they can be). They are logical separations that can live within a single document if the document is structured around them, or across multiple files if the project warrants it. The key is that the separation is intentional and consistent — not ad hoc.
+
+When new material is created, Signal Rail tells you which rail it belongs on. A decision that has been made goes on the decisions rail. An open question that still needs an answer goes on the open work rail. An idea that surfaced mid-session but isn't being acted on yet goes on the ideas rail. A discovered limit or hard requirement goes on the constraints rail. Notes for the next person to pick up the work go on the handoff rail.
+
+This makes the document readable as a state: you can look at any rail and understand what the project's current position is in that category without reading everything else.
+
+## Material Types
+
+<CardGroup cols={2}>
+  <Card title="Decisions" icon="gavel">
+    Settled choices that have been made and should not be reopened without a deliberate process. The decisions rail holds what has been resolved, including the reasoning behind it if the reasoning matters for future work.
+  </Card>
+  <Card title="Open Work" icon="circle-half-stroke">
+    Questions that need answers, tasks that need to be completed, and blockers that need to be resolved before the project can advance. The open work rail is the active queue — what is still live and unresolved.
+  </Card>
+  <Card title="Ideas" icon="lightbulb">
+    Material that surfaced during work but is not being acted on in the current session. Ideas that might be relevant later, alternative approaches that were considered but not taken, and things worth revisiting without being current priorities.
+  </Card>
+  <Card title="Constraints" icon="lock">
+    Hard limits, discovered requirements, and boundaries that the project must work within. Constraints discovered mid-session need a dedicated place so they don't get buried in the narrative of the session and then forgotten or violated in a later session.
+  </Card>
+  <Card title="Handoff Notes" icon="arrow-right-arrow-left">
+    Everything a new operator or a future session needs to know to pick up the work without reconstructing context from scratch. What state the project is in, what was decided, what is still open, and what the next person should know before they start.
+  </Card>
+</CardGroup>
+
+## When to Use Signal Rail
+
+Signal Rail is most useful when a project involves multiple sessions, multiple contributors, or a combination of AI-assisted and human-directed work — any situation where material accumulates over time and context needs to be recoverable without starting from scratch.
+
+In AI-assisted work specifically, Signal Rail addresses a common failure mode: the AI tends to generate a lot of material quickly, and without a structure for where it goes, the useful parts get buried in the output. When you are using an AI to help shape a plan, review an artifact, or develop a workflow, Signal Rail gives you a framework for deciding what to keep, where it goes, and what state it represents.
+
+It is also useful for solo work that spans more than one session. The handoff rail in particular is valuable even when the handoff is just to yourself — returning to a project after a break is significantly easier when the previous session left a clear record of where things stood.
+
+## Getting Started
+
+<Steps>
+  <Step title="Get the protocol">
+    Visit the [Signal Rail GitHub repository](https://github.com/XxYouDeaDPunKxX/Signal-Rail) and read the README to understand the rail structure, naming conventions, and how material is classified.
+  </Step>
+  <Step title="Set up the rails for your project">
+    Create a Signal Rail document or section for your project. Define each rail — decisions, open work, ideas, constraints, handoff notes — even if most of them start empty. The structure should exist before material accumulates, not after.
+  </Step>
+  <Step title="Load the protocol into your working session">
+    If you are working with an AI assistant, paste the Signal Rail protocol into the session so the AI understands the rail structure and can help route new material to the right place as it is created.
+  </Step>
+  <Step title="Route material as it is created">
+    As the session generates decisions, open questions, ideas, constraints, and handoff notes, place each on its appropriate rail. Don't defer this — material that isn't routed immediately tends not to get routed at all.
+  </Step>
+  <Step title="Review rails at session close">
+    At the end of each working session, scan each rail and confirm the state is accurate: decisions are settled, open work reflects what's actually open, and handoff notes are complete enough for the next session to start cleanly.
+  </Step>
+</Steps>
+
+<Note>
+Signal Rail works particularly well in combination with [Memory-Assisted Shaping](/contracts/memory-assisted-shaping). Signal Rail handles the live structure of where project material goes; Memory-Assisted Shaping handles continuity across long sessions — keeping decisions, gates, and discarded paths from getting lost before the final artifact is ready. Together they cover both the organizational and the continuity problems in extended AI-assisted work.
+</Note>

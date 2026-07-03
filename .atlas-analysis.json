@@ -1,0 +1,93 @@
+{
+  "projectType": "general",
+  "projectName": "MaRCoRe's AI Protocol Hub",
+  "projectDescription": "A curated collection of AI behavioral contracts, decision systems, document governance protocols, and practical tools for keeping AI-assisted workflows operational and drift-free.",
+  "theme": "aspen",
+  "primaryColor": "#7C3AED",
+  "lightColor": "#A78BFA",
+  "darkColor": "#4C1D95",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "how-to-use",
+              "philosophy"
+            ]
+          },
+          {
+            "group": "AI Protocols",
+            "pages": [
+              "protocols/adam",
+              "protocols/pa-pvp",
+              "protocols/pa-pvp-mini",
+              "protocols/signal-rail",
+              "protocols/shaping-frame-claude"
+            ]
+          },
+          {
+            "group": "Behavioral Contracts",
+            "pages": [
+              "contracts/canon-boundary-guard-codex",
+              "contracts/canon-boundary-guard-gpt",
+              "contracts/csbp",
+              "contracts/memory-assisted-shaping"
+            ]
+          },
+          {
+            "group": "Project Tooling",
+            "pages": [
+              "tooling/ai-protocol-kit",
+              "tooling/gpt-project-forge",
+              "tooling/chatgpt-skill-system",
+              "tooling/sensecraft-studio",
+              "tooling/decision-rain-library"
+            ]
+          },
+          {
+            "group": "Integrations & Agents",
+            "pages": [
+              "integrations/chatgpt-local-agent-mcp",
+              "integrations/cloudflare-r2-mcp",
+              "integrations/deadpunk-os"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "AI behavioral contracts for reducing drift in long sessions",
+    "Adversarial peer validation protocols (PA-PVP) for stress-testing ideas",
+    "Signal Rail for keeping project material organized",
+    "Canon Boundary Guard for separating evidence from assumptions",
+    "Memory-Assisted Shaping for coherent long AI sessions",
+    "ChatGPT Local Agent MCP for desktop integration",
+    "Cloudflare R2 Remote MCP Worker for file storage bridging",
+    "Decision Rain Library for organizing research signals",
+    "GPT Project Forge for structured ChatGPT project setup",
+    "A.D.A.M. for adaptive AI chat depth management"
+  ],
+  "publicApiSurface": [
+    "A.D.A.M. - Adaptive Depth and Mode protocol",
+    "ai-protocol-kit behavioral contracts",
+    "ChatGPT Local Agent MCP",
+    "Memory-Assisted Shaping protocol",
+    "PA-PVP adversarial validation protocol",
+    "PA-PVP mini lightweight review protocol",
+    "Signal Rail project material organizer",
+    "Cloudflare R2 Remote MCP Worker",
+    "Canon Boundary Guard for Codex",
+    "Canon Boundary Guard for GPT Project",
+    "Shaping Frame for Claude",
+    "CSBP - Codex Shared Best Practice",
+    "SensecraftXStudio grounding layer",
+    "GPT-PF ChatGPT Project Forge",
+    "ChatGPT-SKILL-SYSTEM",
+    "Decision Rain Library Project"
+  ]
+}

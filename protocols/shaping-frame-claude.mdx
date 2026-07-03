@@ -1,0 +1,64 @@
+---
+title: "Shaping Frame for Claude: Clear Long-Session Boundaries"
+sidebarTitle: "Shaping Frame"
+description: "Shaping Frame keeps long Claude sessions clear by separating hypotheses, decisions, Claude-generated material, and operator-approved direction."
+---
+
+Shaping Frame is a protocol for keeping long Claude sessions structurally clear by maintaining explicit separation between four categories of material: hypotheses, decisions, Claude-generated content, and operator-approved direction. Without this separation, long sessions tend to collapse all four into a single undifferentiated context — and Claude, like any AI assistant, will treat them as equivalent unless the structure actively prevents it. The result is session drift: the AI starts treating a working hypothesis as a settled decision, or treats its own generated content as operator-confirmed direction. Shaping Frame solves this by making the category of every piece of material explicit and persistent throughout the session.
+
+## The Layers
+
+Shaping Frame defines four separation layers, each with a distinct role in how a session's material should be treated:
+
+**Hypotheses** are working assumptions, candidate approaches, and things being tested. They have not been confirmed. They should influence exploration but not constrain decisions. Claude should engage with hypotheses as provisional — helping to develop and stress-test them — without treating them as settled.
+
+**Decisions** are operator-confirmed choices that have been explicitly locked in. A decision differs from a hypothesis in that it has been reviewed and approved by the operator, not just generated or proposed. Claude should treat decisions as constraints on subsequent work, not as things to re-examine or reopen unless the operator explicitly says so.
+
+**Claude-generated material** is everything Claude has produced in the session: drafts, suggestions, analysis, structured outputs, code, and responses. This material is available and useful, but it has not been approved. Claude's output is a starting point for operator review, not a baseline for further AI decisions. Treating Claude-generated material as operator-approved is one of the most common and costly session failures in long AI-assisted work.
+
+**Operator-approved direction** is the working basis the operator has explicitly accepted and confirmed. It differs from both decisions (which are resolved) and hypotheses (which are provisional). Approved direction is what Claude should build on — the confirmed foundation for the current phase of work.
+
+## Why Claude Specifically
+
+Shaping Frame is designed for Claude because of specific characteristics of how Claude handles long sessions: it is highly capable of tracking and building on prior context, which also means it can build confidently on context that hasn't actually been confirmed. In shorter sessions, this is rarely a problem. In long sessions — especially ones involving iterative drafting, multi-step planning, or complex design work — the lack of explicit layer separation allows Claude-generated material and working hypotheses to gradually acquire the weight of confirmed operator direction.
+
+For users working with other AI systems, similar boundary-maintenance protocols exist for different platforms:
+
+- [Canon Boundary Guard for Codex](/contracts/canon-boundary-guard-codex) — keeps project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers for Codex-based workflows.
+- [Canon Boundary Guard for GPT](/contracts/canon-boundary-guard-gpt) — helps ChatGPT and GPT Projects maintain separation between uploaded files, chat history, instructions, hypotheses, drafts, and model assumptions before they silently become canon.
+
+Shaping Frame is the Claude-specific version of this pattern, shaped by the particular ways long Claude sessions tend to drift.
+
+## How to Apply It
+
+<Steps>
+  <Step title="Get the protocol">
+    Visit the [Shaping Frame for Claude GitHub repository](https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude) and read the full protocol text.
+  </Step>
+  <Step title="Load Shaping Frame at session start">
+    Paste the Shaping Frame protocol into your Claude session at the very beginning — before any working material, questions, or tasks. The layer structure needs to be established before material starts accumulating, not after. Confirm that Claude has understood the layer structure before proceeding.
+  </Step>
+  <Step title="Assign material to layers as you work">
+    As the session generates content, explicitly assign it to a layer. Introduce new ideas as hypotheses. Confirm decisions explicitly and mark them as such. Treat Claude's output as Claude-generated material until you have reviewed and approved it. Be deliberate about what you are elevating to operator-approved direction.
+  </Step>
+  <Step title="Check the layer state at decision points">
+    Before making a significant choice or moving to a new phase of work, briefly review what is in each layer. Confirm that your decisions reflect what was actually decided by the operator, not what Claude proposed or what you were exploring hypothetically.
+  </Step>
+  <Step title="Restate the layer structure in very long sessions">
+    If a session has been running for a long time and has covered significant ground, consider restating the Shaping Frame protocol — or at minimum, restating the current layer assignments — to reset Claude's working context and prevent accumulated drift.
+  </Step>
+</Steps>
+
+## Common Failure Modes
+
+<Accordion title="Hypothesis treated as fact">
+This happens when a working assumption that was introduced as a hypothesis gets built on in subsequent turns without ever being explicitly confirmed. Claude may develop detailed plans, drafts, or analysis based on the hypothesis — and because the work built on it is extensive and coherent, it starts to feel settled. It isn't. Shaping Frame prevents this by keeping hypotheses explicitly labeled so they don't quietly graduate to decisions through accumulated context.
+</Accordion>
+
+<Accordion title="Claude output treated as operator decision">
+Claude generates confident, well-structured material. That confidence is not the same as operator approval, but in long sessions it can start to function as a proxy for it — especially when the operator has been accepting and building on Claude's output without explicitly reviewing each piece. Shaping Frame maintains a hard separation between Claude-generated material and operator-approved direction so that Claude's output quality cannot substitute for actual operator review.
+</Accordion>
+
+<Accordion title="Session drift over long chats">
+In extended sessions, the working context accumulates to the point where the original operator-set boundaries become diluted by everything that has been built on top of them. Claude remains coherent — it tracks the conversation well — but it is being coherent to a context that has already drifted from the operator's actual intent. Shaping Frame addresses this by providing explicit layer boundaries that don't dissolve under accumulated context, and by providing a restatement mechanism for sessions that have run long enough to need it.
+</Accordion>

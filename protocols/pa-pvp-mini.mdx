@@ -1,0 +1,78 @@
+---
+title: "PA-PVP Mini: Lightweight Adversarial Review Protocol"
+sidebarTitle: "PA-PVP Mini"
+description: "PA-PVP mini stress-tests ideas, plans, prompts, and AI outputs to find gaps, weak logic, and missing constraints — then lets another AI challenge the review itself."
+---
+
+PA-PVP Mini is the lightweight version of the [PA-PVP adversarial validation protocol](/protocols/pa-pvp), designed for situations where you need a real stress-test but not the full high-stakes review structure. It applies the same adversarial logic — look for what is wrong, not what looks right — to smaller items: ideas that haven't been fully formed yet, prompt drafts, quick plans, procedures, and AI outputs that need a sanity check before you act on them. The goal is the same as full PA-PVP, but scaled to match the weight of the task.
+
+## What It Checks
+
+PA-PVP Mini is specifically structured to surface problems that are easy to miss in a standard review or self-check:
+
+- **Gaps** — things the plan, prompt, or output assumes are covered but doesn't actually address
+- **Weak logic** — reasoning steps that seem to follow but don't hold under direct examination
+- **Missing constraints** — boundaries, limits, or conditions that should be stated but aren't
+- **Shaky fixes** — patches or workarounds that appear to resolve a problem but introduce new failure modes or leave the root cause unaddressed
+- **Overconfident framing** — conclusions stated as settled when the evidence or reasoning behind them is thinner than the framing suggests
+
+These are the categories where standard AI review is least reliable, because they require the reviewer to look for what *isn't there* rather than commenting on what is.
+
+## The Two-Stage Review
+
+PA-PVP Mini runs in two passes, not one. This is its core structural feature and the thing that separates it from a simple critique prompt.
+
+**First pass:** An AI reviewer goes through the target item — idea, plan, prompt, output, or procedure — using the adversarial framing. Its job is to find gaps, weak logic, missing constraints, and shaky fixes. It does not summarize what the item does well. It looks for problems.
+
+**Second pass:** A second AI reviewer — or the same AI in a separate, clean turn — is given both the original item *and* the first review. Its job is to challenge both: find what the first review got wrong, what it missed, and where it may have been too soft on the original work. The second reviewer is not trying to validate the first review; it is looking for its failure modes.
+
+The two-stage structure exists because single-pass reviews, even adversarial ones, can still be shaped by the framing of the original work. The second reviewer has a structural mandate to find what the first reviewer missed, which catches a meaningfully different class of problems.
+
+## When to Use Mini vs Full
+
+<Tabs>
+  <Tab title="Use Mini">
+    PA-PVP Mini is the right choice when:
+
+    - The item being reviewed is early-stage, exploratory, or relatively low-stakes
+    - You need a quick adversarial check before moving forward, not a formal verdict
+    - The work is a prompt, a draft idea, a procedure, or an AI output you want to sanity-check
+    - The cost of acting on a flawed result is recoverable — a bad direction that can be corrected without major downstream damage
+    - You want adversarial coverage without the overhead of the full verdict-action-continuation structure
+    - Time is a constraint and you need something actionable in a short session
+
+    Mini gives you the adversarial two-stage review without requiring the full PA-PVP output format. It is designed to be used frequently, not reserved for critical moments.
+  </Tab>
+  <Tab title="Use Full PA-PVP">
+    [Full PA-PVP](/protocols/pa-pvp) is the right choice when:
+
+    - The item being reviewed is consequential — a plan that will be executed, a decision that will be acted on, an artifact that others will rely on
+    - The cost of acting on a flawed result is high or hard to reverse
+    - You need a formal verdict (pass / conditional pass / fail) and a defined next action, not just a list of issues
+    - The work has already passed a lighter review and needs a final high-stakes stress-test
+    - The adversarial loop needs to be documented and traceable — for team review, audit, or handoff
+    - You are reviewing something that has already been through multiple iterations and needs adversarial pressure applied systematically, not casually
+
+    Use full PA-PVP when the stakes justify the structure. Use Mini for everything else that still needs adversarial coverage.
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+<Steps>
+  <Step title="Get the protocol">
+    Visit the [PA-PVP Mini GitHub repository](https://github.com/XxYouDeaDPunKxX/PA-PVP-mini) and read the protocol text. It is short — designed to be loaded into a chat session directly.
+  </Step>
+  <Step title="Load the protocol into your session">
+    Paste the PA-PVP Mini protocol text at the start of your AI chat session, or include it in your system prompt. Confirm the AI has loaded it before submitting the item to review.
+  </Step>
+  <Step title="Submit your item for first-pass review">
+    Provide the item to review — idea, plan, prompt, output, or procedure. The AI runs the first adversarial pass, looking specifically for gaps, weak logic, missing constraints, and shaky fixes.
+  </Step>
+  <Step title="Run the second-pass challenge">
+    Start a new turn (or a fresh session if you want maximum separation) and provide both the original item and the first-pass review. Instruct the AI to challenge both — looking for what the first review missed or got wrong.
+  </Step>
+  <Step title="Act on the combined findings">
+    Use the output of both passes to revise, discard, or escalate the item. If the second pass surfaces serious issues that weren't caught in the first, consider whether the item needs a full PA-PVP review before moving forward.
+  </Step>
+</Steps>

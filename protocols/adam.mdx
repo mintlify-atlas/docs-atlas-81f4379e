@@ -1,0 +1,66 @@
+---
+title: "A.D.A.M.: Adaptive Depth and Mode for AI Conversations"
+sidebarTitle: "A.D.A.M."
+description: "A.D.A.M. keeps AI chats at the right complexity level so simple questions stay simple and complex work doesn't become overloaded or unclear."
+---
+
+A.D.A.M. (Adaptive Depth and Mode) is a behavioral protocol that signals to an AI assistant what level of depth, detail, and formality is appropriate for any given task or question. Without it, AI assistants tend to default to whatever mode they were last operating in — answering a quick factual question with the same density as a full technical analysis, or skimming over complex work because the session started with something lightweight. A.D.A.M. solves this by making the expected response mode explicit, keeping conversations productive without constant manual correction.
+
+## The Problem
+
+AI conversations rarely stay at one level of complexity. A session might begin with a quick question about a command-line flag, shift into a detailed design review, then circle back to a one-line clarification. Without any signal about what's expected, AI assistants either lock onto a single register for the whole session or make inconsistent guesses about what each response should look like.
+
+The result is friction: elaborately structured answers to trivial questions waste time and bury the useful part, while shallow or over-compressed responses to complex work leave gaps that have to be caught and corrected later. Neither failure mode is dramatic — they accumulate quietly, and most people just adapt by adding more corrections to every message. A.D.A.M. addresses this at the protocol level so you don't have to manage it message by message.
+
+## How A.D.A.M. Works
+
+A.D.A.M. works by establishing a shared vocabulary for response depth and mode at the start of a session or at any transition point within one. The protocol defines a set of named modes — from terse factual retrieval through step-by-step walkthroughs to full deep-analysis responses — and provides the operator with a clean way to signal which mode applies to the current task.
+
+When a depth mode is active, the AI calibrates its response accordingly: structure, length, the amount of reasoning made explicit, whether caveats are included, and how much context is restated. Switching modes is as lightweight as a one-word signal. The protocol is not about restricting what the AI can say — it's about making the *shape* of the expected response legible without requiring the operator to describe it from scratch each time.
+
+This is particularly useful in long sessions where the type of work shifts frequently. Rather than managing tone and detail manually throughout, A.D.A.M. lets the conversation adapt structurally, not just by feel.
+
+## When to Use It
+
+<Accordion title="Quick factual questions">
+When you need a direct answer — a value, a name, a command, a definition — shallow mode keeps the response short and usable. There is no need for the AI to explain its reasoning, offer alternatives, or restate context. A.D.A.M. makes it easy to signal that the current question is factual and narrow so the answer matches the question.
+</Accordion>
+
+<Accordion title="Deep technical work">
+When you are working through system design, debugging a complex problem, reviewing an architecture, or shaping a multi-step plan, deep mode ensures the AI engages fully: surfacing assumptions, making reasoning explicit, flagging gaps, and structuring output for review rather than for quick consumption. Without a depth signal, even technically capable AI assistants may give under-specified answers to complex questions because they are matching the tone of a short input.
+</Accordion>
+
+<Accordion title="Mixed sessions">
+Real working sessions rarely stay at one level. A.D.A.M. is designed for this: you can switch modes mid-session at any transition, moving from a quick clarification back into a detailed review without resetting the whole session or restating context. The protocol gives you a consistent handle for managing that shift cleanly, so the AI follows the change rather than averaging across it.
+</Accordion>
+
+## Getting Started
+
+<Steps>
+  <Step title="Get the protocol">
+    Visit the [A.D.A.M. GitHub repository](https://github.com/XxYouDeaDPunKxX/A.D.A.M.-Adaptive-Depth-and-Mode) and read the README to understand the available depth modes and the signal format.
+  </Step>
+  <Step title="Load it into your session">
+    Paste the protocol text into your AI assistant at the start of a session, or include it in a project-level system prompt if your platform supports persistent instructions.
+  </Step>
+  <Step title="Set an initial mode">
+    Signal which depth mode applies to the first task in your session. If you are starting with exploratory questions, set a lighter mode. If you are diving straight into technical work, set a deeper one.
+  </Step>
+  <Step title="Switch modes at transitions">
+    When the type of work changes, use the mode signal to update the AI's expected response shape. A.D.A.M. transitions are lightweight — a single keyword or phrase is enough.
+  </Step>
+  <Step title="Refine over time">
+    Note which modes work well for your typical workflows and adjust your starting defaults. The protocol is meant to be adapted to your actual patterns, not used rigidly as shipped.
+  </Step>
+</Steps>
+
+## Related Tools
+
+A.D.A.M. pairs well with other protocols that shape session structure and information flow:
+
+- [Signal Rail](/protocols/signal-rail) — keeps decisions, open work, ideas, and constraints organized in separate tracks so the right material is always findable as a session grows.
+- [Memory-Assisted Shaping](/contracts/memory-assisted-shaping) — helps maintain coherence across long ChatGPT and GPT Project sessions by tracking decisions, gates, and discarded paths so they don't get lost.
+
+<Tip>
+A.D.A.M. is most effective when combined with a structural protocol like Signal Rail. Depth mode tells the AI *how* to respond; Signal Rail tells both you and the AI *where* different types of material belong. Together they cover two of the most common ways long AI sessions degrade: response calibration drift and document sprawl.
+</Tip>

@@ -1,0 +1,58 @@
+---
+title: "GPT Project Forge: Structured ChatGPT Project Setup"
+sidebarTitle: "Project Forge"
+description: "GPT Project Forge prepares the starting files for a ChatGPT Project so scope, sources, constraints, and starting basis are clear before the real work begins."
+---
+
+GPT Project Forge is a setup tool that prepares the foundational files for a new ChatGPT Project before any real work starts. Starting a ChatGPT Project without a clear scope definition, a declared source list, explicit constraints, and an established starting basis means your AI assistant is filling those gaps from inference — and AI inference about your project context is wrong more often than it's right. Project Forge closes those gaps at the start so you're not correcting bad assumptions for the rest of the project's life.
+
+<Note>
+  GPT Project Forge is purpose-built for **ChatGPT Projects** — the persistent, file-backed workspace feature in ChatGPT. It is not designed for OpenAI Codex, Claude Projects, or any other assistant. If you're working outside ChatGPT Projects, the setup structure may still be useful as a template, but the tooling is optimized for that specific environment.
+</Note>
+
+## What It Prepares
+
+Project Forge generates a structured set of starting files that establish the ground truth for your project before the AI touches anything operational.
+
+- **Scope definition** — a clear, written statement of what this project is and, critically, what it is not. Scope without explicit exclusions is just a wish.
+- **Source list** — a declared inventory of the files, documents, references, and data sources the AI is permitted to draw from. Undeclared sources are out of scope by default.
+- **Constraints** — explicit limits on what the AI can assume, propose, or act on. Constraints defined at the start are enforced throughout; constraints added later fight against established patterns.
+- **Starting basis** — a record of the project's actual state at kickoff, so the AI's "before" is grounded in reality rather than reconstructed from chat history.
+
+## The Problem It Solves
+
+Without a structured project setup, ChatGPT Projects degrade in predictable ways. Scope creep starts in session one — the AI makes reasonable-sounding assumptions about what's in-scope because nobody told it otherwise. Missing context causes the assistant to hallucinate plausible project history. Unclear constraints mean the AI will propose solutions that violate your actual requirements, then defend those proposals when pushed back on.
+
+These aren't AI failures. They're setup failures. The AI is doing exactly what it's supposed to do — filling gaps with its best guess. Project Forge makes sure there are no gaps to fill when it matters most: before the first real session begins.
+
+## How to Use It
+
+<Steps>
+  <Step title="Clone or download the Project Forge repository">
+    Get the files from [github.com/XxYouDeaDPunKxX/GPT-PF-Chat-GPT-Project-Forge](https://github.com/XxYouDeaDPunKxX/GPT-PF-Chat-GPT-Project-Forge) and read the README to understand the file structure and what each template is meant to hold.
+  </Step>
+  <Step title="Fill in the scope definition">
+    Write a direct statement of your project's purpose, primary outputs, and explicit exclusions. Be blunt. "This project does not cover X" is more useful than leaving X ambiguous.
+  </Step>
+  <Step title="Declare your source list">
+    List every file, document, or reference the AI should draw from. If it's not on the list, it's out of scope. Upload the source list as a project file in ChatGPT.
+  </Step>
+  <Step title="Set your constraints">
+    Write out the hard limits: what the AI cannot assume, what it cannot propose without asking, what outputs require your review before being treated as final. Load these into the project instructions.
+  </Step>
+  <Step title="Record the starting basis">
+    Document the actual current state of the project — what exists, what's decided, what's still open. This becomes the AI's verified baseline for the entire project lifetime.
+  </Step>
+  <Step title="Upload all files to your ChatGPT Project">
+    Load the prepared files into the ChatGPT Project before starting the first working session. The structure is now in place. The AI has a real foundation to work from.
+  </Step>
+</Steps>
+
+## What to Do After Setup
+
+A well-set-up project is the floor, not the ceiling. Once Project Forge has established your starting structure, the next step is loading the working protocols that will govern the actual sessions.
+
+- **[Memory-Assisted Shaping](/contracts/memory-assisted-shaping)**: Load this for long idea-shaping or artifact-building sessions where decisions, gates, and discarded paths need to stay tracked across multiple exchanges.
+- **[ChatGPT Skill System](/tooling/chatgpt-skill-system)**: Use the Skill System to control which protocol packages are loaded into your project sessions, rather than front-loading everything into context at once.
+
+Project Forge sets the structure. The Skill System controls what gets loaded into it. Memory-Assisted Shaping keeps the long work coherent. These three tools are designed to work together.

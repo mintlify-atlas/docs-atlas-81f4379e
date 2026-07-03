@@ -1,0 +1,63 @@
+---
+title: "AI Protocol Kit: Working Contracts for AI-Assisted Workflows"
+sidebarTitle: "Protocol Kit"
+description: "A complete working kit of AI behavior contracts and operational protocols for shaping ideas, reviewing work, writing for readers, and keeping AI workflows from breaking."
+---
+
+The `ai-protocol-kit` is the most complete single package in the MaRCoRe AI Protocol Hub. It bundles behavioral contracts and operational protocols that cover the full lifecycle of AI-assisted work — from shaping raw ideas into coherent artifacts, to reviewing outputs under adversarial pressure, to writing for real human readers, to keeping long-running AI sessions from silently falling apart. If you only pick up one repository from this hub, this is the one.
+
+## What's Included
+
+The kit is organized around four protocol categories, each targeting a different failure mode in AI-assisted workflows.
+
+<CardGroup cols={2}>
+  <Card title="Shaping Protocols" icon="layer-group">
+    Behavioral contracts for turning messy ideas into structured, workable artifacts. These protocols prevent AI sessions from wandering into premature solutions before the problem is actually understood.
+  </Card>
+  <Card title="Review Protocols" icon="magnifying-glass">
+    Adversarial and structured review contracts that stress-test outputs, plans, and decisions. These protocols force the AI to surface gaps, weak logic, and missing constraints rather than rubber-stamp whatever was produced.
+  </Card>
+  <Card title="Writing Protocols" icon="pen-nib">
+    Contracts that keep AI-generated writing grounded in the actual reader — their context, expectations, and tolerance for jargon. These protocols push back against AI's natural tendency to write for itself.
+  </Card>
+  <Card title="Operational Protocols" icon="gears">
+    Session management and drift-prevention contracts for keeping long AI-assisted workflows coherent. These protocols handle handoffs, decision tracking, and context boundaries so nothing silently becomes canon that shouldn't be.
+  </Card>
+</CardGroup>
+
+## Who It's For
+
+**Solo AI workers** who use ChatGPT, Claude, or Codex for real work — not demos, not experiments — and have watched a session drift sideways because there was no structure holding the AI's behavior in place. The kit gives you contracts you can load per-session and trust to hold.
+
+**People building AI workflows** who need repeatable behavior from AI assistants across multiple sessions, projects, or collaborators. The kit's protocols are designed to be loaded, adapted, and reused — not read once and forgotten.
+
+**Prompt engineers** who are tired of writing one-off system prompts for every new task. The protocols in this kit are already shaped by real use. Fork them, break them, rebuild them for your context. That's the point.
+
+## Getting Started
+
+<Steps>
+  <Step title="Browse the kit on GitHub">
+    Start at [github.com/XxYouDeaDPunKxX/ai-protocol-kit](https://github.com/XxYouDeaDPunKxX/ai-protocol-kit) and read the top-level README. It maps which protocol covers which problem so you're not guessing.
+  </Step>
+  <Step title="Identify which protocols apply to your workflow">
+    Match your current failure mode to the right category. Drifting sessions? Operational protocols. Outputs that sound good but fall apart under scrutiny? Review protocols. Writing that reads like a press release? Writing protocols.
+  </Step>
+  <Step title="Load the relevant protocol into your AI session">
+    Paste the protocol contract into your system prompt, project instructions, or at the top of your session context. The contracts are written to be loaded directly — no translation required.
+  </Step>
+  <Step title="Adapt to your specific context">
+    The protocols are starting points, not laws. Replace placeholder language with your actual project names, constraints, and outputs. A protocol that fits your workflow precisely will hold better than one loaded verbatim.
+  </Step>
+</Steps>
+
+<Tip>
+  Start with one protocol at a time. Loading the entire kit into a single session context is a fast way to overload it. Pick the protocol that addresses your most pressing failure mode right now, run with it for a few sessions, and then add the next one once you know how the first one behaves in practice.
+</Tip>
+
+## Related Protocols
+
+The kit bundles several protocols that are also documented individually in this hub. If you want to go deeper on a specific contract before loading the full kit:
+
+- [A.D.A.M. — Adaptive Depth and Mode](/protocols/adam): Controls AI response depth so simple questions stay simple and complex work doesn't get buried in unnecessary elaboration.
+- [PA-PVP — Adversarial Peer Validation Protocol](/protocols/pa-pvp): Turns vague plans and stuck decisions into a clear verdict and one next action instead of another open-ended loop.
+- [Signal Rail](/protocols/signal-rail): Keeps live project material in the right place so decisions, open work, and handoff notes don't collapse into a single undifferentiated block.

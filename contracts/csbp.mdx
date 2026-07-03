@@ -1,0 +1,68 @@
+---
+title: "CSBP: Codex Shared Best Practices for Reuse"
+sidebarTitle: "CSBP"
+description: "CSBP is a companion layer for Codex practices worth reusing across projects but not strong enough to become project rules or formal protocols."
+---
+
+CSBP — Codex Shared Best Practices — is a small companion layer that sits below formal protocols and project rules in a Codex-assisted workflow. It provides a home for practices that have proven useful enough to carry from project to project, but that don't carry the weight or rigidity of a rule and haven't yet been structured into a full behavioral contract. Think of it as the middle ground between "something I do informally" and "something I've formalized into a protocol."
+
+## The Three-Tier Model
+
+Codex workflows can be organized into three tiers of behavioral structure. CSBP occupies the third tier — the one closest to everyday practice.
+
+**Tier 1 — Project Rules**
+
+Hard constraints for a specific project. These are non-negotiable within their scope: "never modify files outside the `/src` directory," "always produce tests before implementation," "scope is fixed to the features listed in the brief." Project rules are authoritative and session-specific. Violating them is an error, not a judgment call.
+
+**Tier 2 — Formal Protocols**
+
+Structured behavioral contracts that govern how Codex handles recurring classes of problems: layer separation, session coherence, peer review, decision management. Formal protocols like [Canon Boundary Guard for Codex](/contracts/canon-boundary-guard-codex) are designed to be loaded as skills or applied explicitly. They carry consistent behavior across sessions and are meant to be versioned, referenced, and maintained.
+
+**Tier 3 — Shared Best Practices (CSBP)**
+
+Reusable patterns below the rule threshold. These are practices that work well often enough to be worth remembering and applying across projects, but that require judgment about when and how to apply them. They are not enforced — they are referenced. A CSBP is a documented default: "in the absence of a rule or protocol that says otherwise, doing X tends to produce better results."
+
+<Tip>
+Think of CSBP as a staging area. Practices that prove consistently valuable under different conditions are candidates for elevation to formal protocols. Practices that only hold in narrow contexts belong in project rules, not CSBP. CSBP is for the middle: broadly useful, judgment-dependent, not yet formalized.
+</Tip>
+
+## When Something Becomes a CSBP
+
+Not every useful habit belongs in CSBP. The criteria for promoting a practice to CSBP:
+
+- **Reuse signal**: you've applied it successfully in at least two or three distinct projects or sessions. If it's only worked once, keep it informal.
+- **Cross-project generality**: it doesn't depend on the specifics of a single project's scope, stack, or constraints. If it only makes sense given a particular setup, it's a project rule candidate, not a CSBP.
+- **Below rule threshold**: it requires judgment to apply. If it should always be followed without exception, it's a rule. If it needs to be weighed against context, it's a best practice.
+- **Documentable briefly**: you can describe what to do and why it helps in a few sentences. If it requires extensive explanation or careful sequencing, it probably belongs in a formal protocol.
+
+Practices that don't meet these criteria stay informal: personal habits, one-off approaches, and project-specific conventions that haven't proven general. There's no benefit to formalizing everything — CSBP is a deliberate collection, not a dump.
+
+## Using CSBP in Codex Sessions
+
+CSBP is referenced rather than enforced. When starting a Codex session, you can load relevant shared practices alongside your project rules and any formal protocols you're using. The difference in how they're handled:
+
+- **Project rules** are stated as hard constraints. Codex should treat them as non-negotiable boundaries.
+- **Formal protocols** are loaded as behavioral contracts. Codex applies them as skill layers.
+- **CSBP entries** are stated as defaults. Codex applies them unless a project rule or operator instruction says otherwise, or unless the specific situation makes a different approach clearly more appropriate.
+
+When referencing a CSBP entry in session, be explicit: "apply CSBP: declare working hypotheses before acting." This keeps the practice visible and lets you override it cleanly when needed.
+
+You can maintain your CSBP collection as a simple document that travels with you across projects — a portable library of working defaults you've earned through use.
+
+## Examples of Best Practices
+
+The following are representative examples of the kind of practices that belong in CSBP. They are illustrative of the format and tone, not exhaustive.
+
+**Declare working hypotheses before acting**
+Before Codex takes an action based on an assumption or candidate approach, state that the basis is a hypothesis, not a confirmed fact. This keeps the action provisional and prevents an untested idea from being treated as a decision once the action is complete.
+
+**Flag mode transitions explicitly**
+When shifting from exploratory work (generating options, shaping ideas, investigating unknowns) to execution work (implementing, committing, finalizing), announce the transition. "Switching from exploration to execution: the approach we're going with is X." This prevents Codex from applying exploratory reasoning to execution-phase tasks and vice versa.
+
+**Summarize open threads before ending a session**
+At the end of a work session, produce a brief summary of open threads: decisions made, items still pending, hypotheses not yet resolved, next actions. This reduces session startup cost and prevents completed items from re-appearing as open questions.
+
+**Name your sources when introducing material**
+When bringing new material into a session — a file, a reference, a prior output — state explicitly what it is and what authority it carries. "This is the finalized spec from last week" and "this is a rough draft I generated for exploration" should be distinguished at the point of introduction, not reconstructed later.
+
+For the full collection and version history: [github.com/XxYouDeaDPunKxX/CSBP-Codex-Shared-Best-Practice](https://github.com/XxYouDeaDPunKxX/CSBP-Codex-Shared-Best-Practice)

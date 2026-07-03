@@ -1,0 +1,77 @@
+---
+title: "Canon Boundary Guard for Codex: Separate Cognitive Layers"
+sidebarTitle: "CBG for Codex"
+description: "Canon Boundary Guard keeps project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers in Codex."
+---
+
+Canon Boundary Guard (CBG) for Codex is a Codex skill that maintains strict separation between the different cognitive layers active during an AI-assisted session. Without explicit layer boundaries, Codex tends to blend verified project facts with exploratory hypotheses, operator instructions with model inferences, and chat history with authoritative source material. CBG makes those boundaries explicit and keeps them enforced throughout a session.
+
+## The Five Layers
+
+Each layer represents a distinct category of information. Keeping them separate lets you reason clearly about where a given piece of information came from and how much weight it should carry.
+
+| Layer | What it contains | Authority level |
+|---|---|---|
+| **Project Evidence** | Verified facts, committed files, confirmed outputs, tested results | Highest — treat as ground truth |
+| **Chat Context** | Conversation history for the current session, prior exchange summaries | Medium — informational, not authoritative |
+| **Operator Instructions** | Explicit directives the human has given the AI: scope, constraints, goals | High — governs behavior during the session |
+| **Working Hypotheses** | Unverified ideas being explored, candidate approaches, speculative framings | Low — must be tested before promotion |
+| **Model Assumptions** | Inferences Codex has made from context, patterns, or prior sessions | Lowest — must be surfaced and confirmed before acting on them |
+
+The key distinction is between layers 1–3, which carry real authority, and layers 4–5, which are provisional. Problems occur when material from layers 4 or 5 is treated as if it belongs in layers 1–3.
+
+## Why Layer Separation Matters
+
+The core problem CBG addresses is silent canon drift: the process by which model assumptions and working hypotheses gradually become indistinguishable from confirmed project facts.
+
+This happens because AI assistants naturally integrate everything in context. A hypothesis you floated three sessions ago, a constraint Codex inferred from a file structure, an intermediate draft that was never finalized — all of these can quietly accumulate authority over time. By the time you notice the drift, the AI may be making decisions based on assumptions that were never verified, referencing drafts as if they were finals, or applying operator instructions that were superseded.
+
+The damage is hard to detect because the output still looks coherent. The AI isn't making obvious mistakes — it's just operating from a subtly wrong model of what is true and what is in play.
+
+<Warning>
+**Silent canon drift is the default, not the exception.** Unless you actively maintain layer boundaries, Codex will treat its own inferences as working facts after enough turns. Assumptions that are never explicitly flagged as assumptions will eventually be used as if they were confirmed. CBG is the mechanism that prevents this from happening without you noticing.
+</Warning>
+
+## Codex-Specific Implementation
+
+CBG is implemented as a Codex skill — a structured instruction set loaded into a Codex session to govern how the AI handles and categorizes incoming information. What makes this a Codex-specific implementation rather than a general prompt pattern:
+
+- **Skill-based loading**: CBG is designed to integrate with the Codex skill loading system. It is activated at session start and runs as a persistent behavioral layer rather than a one-time instruction.
+- **Inline layer tagging**: CBG instructs Codex to tag claims and outputs by layer when surfacing information, so you can see at a glance whether something is project evidence or a model assumption.
+- **Promotion gates**: Before an assumption or hypothesis can be used as a basis for action, CBG requires it to be explicitly promoted by the operator. This gate prevents implicit promotion from happening through repeated use.
+- **Drift checkpoints**: CBG includes periodic layer review checkpoints during long sessions to catch any blending before it accumulates.
+
+The skill is designed to be lightweight — it adds structure to how Codex labels and presents information, not a heavy overhead to every exchange.
+
+## Getting Started
+
+<Steps>
+  <Step title="Obtain the skill file">
+    Clone or download the CBG for Codex repository from [GitHub](https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex). The core skill file is what you will load into your Codex session.
+  </Step>
+  <Step title="Load CBG at session start">
+    At the beginning of a new Codex session, load the CBG skill file before any project-specific context. Loading order matters: CBG needs to be active before project evidence and chat history enter context.
+  </Step>
+  <Step title="Declare your project evidence layer">
+    Explicitly tell Codex what counts as project evidence for this session. Name the files, outputs, or confirmed facts that hold ground-truth authority. Everything else starts in a lower layer.
+  </Step>
+  <Step title="State your operator instructions explicitly">
+    Don't leave scope and constraints implicit. State them directly so Codex registers them as operator instructions rather than inferring them from context. This keeps layer 3 clean and unambiguous.
+  </Step>
+  <Step title="Label hypotheses before exploring them">
+    When you want to explore an idea, explicitly mark it as a working hypothesis. This prevents Codex from treating the exploration as a decision. Use the layer tagging pattern CBG provides.
+  </Step>
+  <Step title="Run promotion checks before acting">
+    Before Codex takes any significant action based on a hypothesis or inference, use the CBG promotion gate to confirm that the basis for that action has been validated and elevated to an appropriate layer.
+  </Step>
+</Steps>
+
+## Related Tools
+
+CBG for Codex is part of a broader ecosystem of behavioral contracts for AI-assisted work:
+
+- **[Canon Boundary Guard for GPT](/contracts/canon-boundary-guard-gpt)** — the equivalent skill adapted for ChatGPT Projects, where the same layer-collapse problem manifests differently due to GPT's memory and file handling behavior.
+- **[Shaping Frame for Claude](/protocols/shaping-frame-claude)** — a related protocol for Claude sessions that separates hypotheses, decisions, Claude-generated material, and operator-approved direction in long shaping sessions.
+- **[CSBP: Codex Shared Best Practices](/contracts/csbp)** — the companion layer for reusable Codex practices that sit below the threshold of formal protocols but are worth carrying across sessions.
+
+For full source, version history, and the skill file itself: [github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex](https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex)
